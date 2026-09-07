@@ -50,3 +50,16 @@ def update_application(update : UpdateApplication, application_id : int):
             status_code = 404,
             detail = "msg: application not found"
         )
+
+@app.delete("/applications/{application_id}", status_code=204)
+def delete_application(application_id : int):
+    for application in applications:
+        if application.id == application_id:
+            applications.remove(application)
+            return 
+
+    raise HTTPException(
+        status_code = 404,
+        detail= "msg: application not found"
+        )
+    
