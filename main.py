@@ -19,6 +19,12 @@ applications = []
 
 @app.post("/applications",status_code = 201)
 def create_application (application : Application):
+    for current_application in applications:
+        if current_application.id == application.id:
+            raise HTTPException(
+                status_code= 409,
+                detail = "application already existed"
+                )
     applications.append(application)
     return application
 
