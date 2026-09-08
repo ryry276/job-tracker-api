@@ -1,19 +1,22 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, Literal
 
 app = FastAPI()
+
+ApplicationStatus = Literal["applied", "interview", "rejected"]
 
 class Application(BaseModel):
     id : int = Field(ge = 0)
     company: str
     role : str
-    status : str
+    status : ApplicationStatus 
+
 
 class UpdateApplication(BaseModel):
     company : Optional[str] = None
     role : Optional[str] = None
-    status : Optional[str] = None
+    status : ApplicationStatus | None = None
 
 applications = []
 
@@ -29,7 +32,7 @@ def create_application (application : Application):
     return application
 
 @app.get("/applications")
-def get_applications(status : str | None = None, company : str | None = None ):
+def get_applications(status : ApplicationStatus | None = None, company : str | None = None ):
     result = applications
     if status is not None:
         filtered = []
