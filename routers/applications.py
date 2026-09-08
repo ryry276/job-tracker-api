@@ -9,16 +9,14 @@ ApplicationStatus = Literal["applied", "interview", "rejected"]
 
 class Application(BaseModel):
     id : int = Field(ge = 0)
-    name : str
-    company: str
-    role : str
+    company: str = Field(min_length=1)
+    role : str = Field(min_length=1)
     status : ApplicationStatus 
 
 
-class UpdateApplication(BaseModel):
-    name : Optional[str] = None
-    company : Optional[str] = None
-    role : Optional[str] = None
+class UpdateApplication(BaseModel):   
+    company : Optional[str] = Field(default=None, min_length=1)
+    role : Optional[str] = Field(default=None, min_length=1)
     status : ApplicationStatus | None = None
 
 applications = []
