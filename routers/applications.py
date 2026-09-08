@@ -45,7 +45,7 @@ def get_applications(status : ApplicationStatus | None = None, company : str | N
     if company is not None:
         filtered = []
         for application in result:
-            if application.company == company:
+            if application.lower() == company.lower():
                 filtered.append(application)
         result = filtered
         
